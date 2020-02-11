@@ -1,4 +1,4 @@
-import parser
+from journal import parser
 
 def test_split_md():
 
