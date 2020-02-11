@@ -12,3 +12,6 @@ pytest-cov==2.8.1
 six==1.14.0
 wcwidth==0.1.8
 zipp==2.1.0
+configparser==4.0.2
+pkg-resources==0.0.0
+
