@@ -1,0 +1,9 @@
+1. Empty README
+2. Use argparse
+3. Config.ini not getting copied
+4. Use some status messaging
+5. Create a sample post when you do an init
+6. Tests for all new code. 
+7. Setup travis
+8. Replace space with underscores in filename
+9. TEST TEST TEST!!!
