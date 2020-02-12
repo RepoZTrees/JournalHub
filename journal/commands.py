@@ -3,7 +3,7 @@ import sys
 import shutil
 import os
 import os.path
-import parser
+from . import parser
 
 def main():
     this_dir,this_filename = os.path.split(__file__)
