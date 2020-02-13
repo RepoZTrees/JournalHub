@@ -13,11 +13,6 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/RepoZTrees/JournalHub",
     packages = setuptools.find_packages(),
-    package_data = {
-        'journal':['assets']
-    },
-    data_files = [('templates', ['journal/assets/templates/index.html','journal/assets/templates/post.html'])],
-    include_package_data = True,
     entry_points ={
         'console_scripts':['journal = journal.commands:main']},
     python_requires='>=3.6',
