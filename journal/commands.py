@@ -3,7 +3,7 @@ import sys
 import shutil
 import os
 import os.path
-import parser
+from . import parser
 
 def main():
     this_dir,this_filename = os.path.split(__file__)
@@ -16,6 +16,7 @@ def main():
     if sys.argv[1] == 'init':
         dest = shutil.copyfile(source_path, destination_path)
         d = shutil.copytree(source_path1, destination_path1)
+        print("Folder initialized.")
     elif sys.argv[1] == 'generate':
         path = os.getcwd()
         parser.md_to_html(path)
