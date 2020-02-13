@@ -4,7 +4,8 @@ import json
 import os
 from jinja2 import Environment, PackageLoader
 import os.path
-env = Environment(loader=PackageLoader('parser','templates'))
+
+env = None
 
 def split_md(data):
     "It seperates header and the content of an article"
@@ -68,6 +69,7 @@ def create_post(dict,path):
     
 def create_index(dict,path):
     index_template = env.get_template('index.html')
+    
     blog_names=[]
     for i in dict:
         dir_name = os.path.basename
@@ -89,6 +91,8 @@ def generate_html(dict,path):
         create_post(values,path)
 
 def md_to_html(path):
+    global env
+    env = Environment(loader=PackageLoader('parser','/tmp/journal/templates'))
     dict = get_parsed_md(path)
     generate_html(dict,path)
     
