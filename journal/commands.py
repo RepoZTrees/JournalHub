@@ -16,6 +16,7 @@ def main():
     if sys.argv[1] == 'init':
         dest = shutil.copyfile(source_path, destination_path)
         d = shutil.copytree(source_path1, destination_path1)
+        print("Folder initialized.")
     elif sys.argv[1] == 'generate':
         path = os.getcwd()
         parser.md_to_html(path)
