@@ -1,5 +1,3 @@
-from sys import argv
-import sys
 import shutil
 import os
 import os.path
@@ -26,10 +24,14 @@ def main():
     
     source_path1 = os.path.join(this_dir,'assets','templates')
     destination_path1 = os.path.join(os.getcwd(),'templates')
+
+    source_path2 = os.path.join(this_dir,'assets','example.md')
+    destination_path2 = os.path.join(os.getcwd(),'example.md')
     
     if command == 'init':
-        dest = shutil.copyfile(source_path, destination_path)
-        d = shutil.copytree(source_path1, destination_path1)
+        shutil.copyfile(source_path, destination_path)
+        shutil.copytree(source_path1, destination_path1)
+        shutil.copyfile(source_path2, destination_path2)
     elif command == 'generate':
         path = os.getcwd()
         parser.md_to_html(path,option)

@@ -1,5 +1,6 @@
 import setuptools
 
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -13,6 +14,10 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/RepoZTrees/JournalHub",
     packages = setuptools.find_packages(),
+    package_data = {
+        'journal':['assets/templates/*.html','assets/config.ini','assets/example.md']
+    },
+    include_package_data = True,
     entry_points ={
         'console_scripts':['journal = journal.commands:main']},
     python_requires='>=3.6',
