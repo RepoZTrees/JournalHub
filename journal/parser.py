@@ -2,10 +2,8 @@ import commonmark
 import glob
 import json
 import os
-from jinja2 import Environment, PackageLoader
+import jinja2
 import os.path
-
-env = None
 
 def split_md(data):
     "It seperates header and the content of an article"
@@ -59,17 +57,21 @@ def create_post(dict,path):
     if "post_html" not in os.listdir(path):
         post_html_path= os.path.join(path,"post_html")
         os.mkdir(post_html_path)
-    post_template = env.get_template('post.html')
+    templateLoader = jinja2.FileSystemLoader(searchpath="./templates/")
+    templateEnv = jinja2.Environment(loader=templateLoader)
+    post_template = templateEnv.get_template("post_template.html")
     str = post_template.render(post=dict)
     title = dict['title']
     post_path = os.path.join(path,"post_html",title)
     post_path+=".html"
     f = open(post_path,"w")
     f.write(str)
+
     
 def create_index(dict,path):
-    index_template = env.get_template('index.html')
-    
+    templateLoader = jinja2.FileSystemLoader(searchpath="./templates/")
+    templateEnv = jinja2.Environment(loader=templateLoader)
+    index_template = templateEnv.get_template("index_template.html")
     blog_names=[]
     for i in dict:
         dir_name = os.path.basename
@@ -91,11 +93,7 @@ def generate_html(dict,path):
         create_post(values,path)
 
 def md_to_html(path):
-    global env
-    env = Environment(loader=PackageLoader('parser','/tmp/journal/templates'))
     dict = get_parsed_md(path)
     generate_html(dict,path)
     
-if __name__=='__main__':
-    main()
     
