@@ -24,12 +24,12 @@ JournalHub is a static site generator application. It's a command-line tool whic
 
 ## Authors
 
-Shireen Sharaf
-Zuhara Sharin
-Majid KM
-Shahinshah Ummer
-Thenveer
-Vik Shah
+Shireen Sharaf,
+Zuhara Sharin,
+Majid KM,
+Shahinshah Ummer,
+Thenveer,
+Vik Shah.
 
 ## Special Thanks
 
