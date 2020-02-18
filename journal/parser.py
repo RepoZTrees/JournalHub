@@ -42,6 +42,8 @@ def get_parsed_md(path):
     for i in md_files:
         with open(i,'r') as f:
             data = f.read()
+        file_name = os.path.basename(i)
+        file_name = file_name.split('.')[0]
         info,md_content = split_md(data)  
         python_object = convert_md_to_python(info)
         line1,line2,line3 = parse_info(python_object)
@@ -50,7 +52,7 @@ def get_parsed_md(path):
              'author': line2,
              'date': line3,
             'content':html_content}
-        articles[i] = article_data
+        articles[file_name] = article_data
     return articles
 
 def create_post(dict,path,option):
@@ -110,13 +112,8 @@ def create_index(dict,path,option):
     index_path = os.path.join(path,"index.html")
     f = open(index_path,"w")
     f.write(str)
-
-def generate_html(dict,path,option):
-    create_index(dict,path,option)
-    create_post(dict,path,option)
-
+    
 def md_to_html(path,option):
     dict = get_parsed_md(path)
-    generate_html(dict,path,option)
-    
-    
+    create_index(dict,path,option)
+    create_post(dict,path,option)
