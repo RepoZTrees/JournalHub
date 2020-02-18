@@ -53,47 +53,70 @@ def get_parsed_md(path):
         articles[i] = article_data
     return articles
 
-def create_post(dict,path):
+def create_post(dict,path,option):
     if "post_html" not in os.listdir(path):
         post_html_path= os.path.join(path,"post_html")
         os.mkdir(post_html_path)
     templateLoader = jinja2.FileSystemLoader(searchpath="./templates/")
     templateEnv = jinja2.Environment(loader=templateLoader)
     post_template = templateEnv.get_template("post_template.html")
-    str = post_template.render(post=dict)
-    title = dict['title']
-    post_path = os.path.join(path,"post_html",title)
-    post_path+=".html"
-    f = open(post_path,"w")
-    f.write(str)
+    if option:
+        post_details = []
+        dir_name = os.path.basename(path)
+        for key,value in dict.items():
+            post_details.append(value)
+        data = {
+            'head' : "JournalHub",
+            'post_details' : post_details
+            }
+        str = post_template.render(post=data)
+        post_path = os.path.join(path,"post_html",dir_name)
+        post_path += ".html"
+        f= open(post_path,"w")
+        f.write(str)
+    else:
+        for key,value in dict.items():
+            data= {
+                'head' : "JournalHub",
+                'post_details' : [value]
+                }
+            str = post_template.render(post=data)
+            post_path = os.path.join(path,"post_html",key)
+            post_path += ".html"
+            f = open(post_path,"w")
+            f.write(str)
 
-    
-def create_index(dict,path):
+def create_index(dict,path,option):
     templateLoader = jinja2.FileSystemLoader(searchpath="./templates/")
     templateEnv = jinja2.Environment(loader=templateLoader)
     index_template = templateEnv.get_template("index_template.html")
-    blog_names=[]
+    blog_names = []
     for i in dict:
-        dir_name = os.path.basename
+        dir_name = os.path.basename(path)
         break
     for key,values in dict.items():
-        blog_names.append(values['title'])
-    data = {
-        'head' : dir_name,
-        'blog_names': blog_names
-    }
+        blog_names.append(key)
+    if option:
+        data = {
+            'head' : "JournalHub",
+            'blog_names' : [dir_name]
+            }
+    else:
+        data = {
+            'head' : "JournalHub",
+            'blog_names': blog_names
+        }
     str = index_template.render(post=data)
     index_path = os.path.join(path,"index.html")
     f = open(index_path,"w")
     f.write(str)
 
-def generate_html(dict,path):
-    create_index(dict,path)
-    for key,values in dict.items():
-        create_post(values,path)
+def generate_html(dict,path,option):
+    create_index(dict,path,option)
+    create_post(dict,path,option)
 
-def md_to_html(path):
+def md_to_html(path,option):
     dict = get_parsed_md(path)
-    generate_html(dict,path)
+    generate_html(dict,path,option)
     
     

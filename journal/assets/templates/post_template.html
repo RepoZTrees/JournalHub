@@ -16,6 +16,9 @@ body {
   padding-top:25px;
   font-size: 22px;
 }
+.title{
+
+}
 .paragraph {
   background-color: lightgrey;
   width: 80%;
@@ -29,13 +32,17 @@ margin-top:30px;
 }
 </style>
 <title>
-  {{title}}
+  {{ post.head }}
 </title>
 </head>
 <body>
-<div class="journal_hub" style="text-align:center;">{{ post.title }}</div>
-<div class="paragraph">{{ post.content }}</div>
-<div class="author_name">{{ post.author }}</div>
-<div class="author_name">{{ post.date }}</div>
+  <div class="journal_hub" style="text-align:center;">{{ post.head }}</div>
+{% for item in post.post_details %}
+<div class="title" style="text-align:center:"><h1> {{ item.title }} </h></div>
+<div class="paragraph">  
+  {{ item.content }}
+  <div class="author_name">{{ item.author }}<br>{{ item.date }}</div>
+</div>
+{% endfor %}
 </body>
 </html>
