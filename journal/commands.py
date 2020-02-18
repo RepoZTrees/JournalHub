@@ -3,7 +3,17 @@ import os
 import os.path
 from . import parser
 import argparse
+import logging
 
+def get_logger():
+    l = logging.getLogger('')
+    sh = logging.StreamHandler() 
+    l.addHandler(sh)
+    fmt = logging.Formatter('%(asctime)s | %(filename)s:%(lineno)d | %(message)s')
+    sh.setFormatter(fmt)
+    sh.setLevel(logging.INFO)
+    l.setLevel(logging.INFO)
+    return l
 
 def arg_parse():
     arg_parser = argparse.ArgumentParser()
@@ -16,6 +26,7 @@ def arg_parse():
     return args.function,args.single
 
 def main():
+    l = get_logger()
     command,option = arg_parse()
 
     this_dir,this_filename = os.path.split(__file__)
@@ -32,7 +43,8 @@ def main():
         shutil.copyfile(source_path, destination_path)
         shutil.copytree(source_path1, destination_path1)
         shutil.copyfile(source_path2, destination_path2)
+        l.info("Initializes the blog")
     elif command == 'generate':
         path = os.getcwd()
         parser.md_to_html(path,option)
-    
+        l.info("Generated html files")
