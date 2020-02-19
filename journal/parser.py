@@ -37,7 +37,7 @@ def convert_content_to_html(md_content):
     return html
 
 def get_parsed_md(path):
-    md_files = glob.glob(path+"/*.md")
+    md_files = glob.glob(path+"/blog_posts/*.md")
     articles = {}
     for i in md_files:
         with open(i,'r') as f:
