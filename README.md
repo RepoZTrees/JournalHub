@@ -8,16 +8,16 @@ JournalHub is a static site generator application. It's a command-line tool whic
 2. `$ cd JournalHub`
 3. `$ pip install -r requirements.txt`
 4. `$ python3 setup.py install`
-5. Create an empty folder (for e.g. my_blogs). Create another folder inside **my_blogs** folder, and name it *blog_posts*. Put all your markdown (.md) files here
+5. Create an empty folder (for e.g. my_blogs). Create another folder inside *my_blogs* folder, and name it **blog_posts**. Put all your markdown (.md) files here
 6. `$ journal init`
-7. Copy *example.md* to a *new_filename.md*
+7. Copy **example.md** to a **new_filename.md**
 8. Edit new_filename.md and save
 9. `$ journal generate`
 10. `$ journal serve`
 
 ## Command-line commands
 
-- `$ journal -h`  **or**  `$ journal --help`
+- `$ journal -h`  *or*  `$ journal --help`
 - `$ journal init`
 - `$ journal generate`
 - `$ journal serve`
