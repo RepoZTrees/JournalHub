@@ -3,26 +3,25 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<title>
-  {{ post.head }}
-</title>
+<title>{{ config_data.title }}</title>
 </head>
+
 <body>
+
   <div class="py-4 bg-info">
-    <h1 class="text-center text-light">{{ post.head }}</h1>
+    <h1 class="text-center text-light">{{ config_data.title }}</h1>
+   <h6 class="text-center text-light">{{ config_data.description  }}</h6>
   </div>
-{% for item in post.post_details %}
+
   <div class="container my-4">
-    <h1 class="text-center text-info"> {{ item.title }} </h1>
+    <h1 class="text-center text-info"> {{ post.title }} </h1>
     <div class="row mb-4">
-      <div class="col-6 text-left text-muted"><b>{{ item.date }}</b></div>
-      <div class="col-6 text-right text-muted"><b>{{ item.author }}</b></div>
+      <div class="col-6 text-left text-muted"><b>{{ post.date }}</b></div>
+      <div class="col-6 text-right text-muted"><b>{{ post.author }}</b></div>
     </div>
   </div>
-  <div class="container my-4">  
-    {{ item.content }}
-    
-  </div>
-{% endfor %}
+  
+  <div class="container my-4">   {{ post.content }}  </div>
+
 </body>
 </html>
