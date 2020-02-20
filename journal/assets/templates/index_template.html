@@ -15,11 +15,12 @@
   </div>
   <div class="container my-4">
     <ol class="text-capitalize">
+      
       {% for item in post %}
       <li>
 	<div class="row">
 	  <div class="col-md-6">
-	    <a href="./{{ item.file_name }}.html">{{ item.title }}</a>
+	    <a href="{% if not option %}./{{ item.file_name }}.html{% else %}#{{ item.file_name }}{% endif %}">{{ item.title }}</a>
 	  </div>
 	  <div class="col-md-3">
 	    {{ item.date }}
@@ -33,20 +34,21 @@
     </ol>
   </div>
   
-  <br>
-  <br>
+
   
 {% if option %}
-{% for blog in post %}
-  <div class="container my-4">
-    <h1 class="text-center text-info"> {{ blog.title }} </h1>
-    <div class="row mb-4">
-      <div class="col-6 text-left text-muted"><b>{{ blog.date }}</b></div>
-      <div class="col-6 text-right text-muted"><b>{{ blog.author }}</b></div>
+  {% for blog in post %}
+  <div class="container py-3" id="{{ blog.file_name }}">
+    <div class="my-4">
+      <h1 class="text-center text-info"> {{ blog.title }} </h1>
+      <div class="row mb-4">
+	<div class="col-6 text-left text-muted"><b>{{ blog.date }}</b></div>
+	<div class="col-6 text-right text-muted"><b>{{ blog.author }}</b></div>
+      </div>
     </div>
-  </div>
-  <div class="container my-4">  
-    {{ blog.content }} 
+    <div class="my-4">  
+      {{ blog.content }} 
+    </div>
   </div>
 {% endfor %}
 {% endif  %}
