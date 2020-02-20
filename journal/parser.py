@@ -7,7 +7,7 @@ import os.path
 from . import config
 import datetime
 
-l = getLogger('journalhub')
+#l = getLogger('journalhub')
 
 def split_md(data):
     "It seperates header and the content of an article"
@@ -46,7 +46,7 @@ def get_parsed_md(path):
     articles = []
     for i in md_files:
         with open(i,'r') as f:
-            l.debug("Generating ....")
+            #l.debug("Generating ....")
             data = f.read()
         file_name = os.path.basename(i)
         file_name = file_name.split('.')[0]

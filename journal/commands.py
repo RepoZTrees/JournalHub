@@ -39,22 +39,20 @@ def create_fresh_blog(at):
 def main():
 
     command,option = arg_parse()
-    if '-v' in command:
-        l = get_logger(True)
-    else:
-        l = get_logger(False)
+    l = get_logger()
+    # if '-v' in command:
+    #     l = get_logger(True)
+    # else:
+    #     l = get_logger(False)
 
     this_dir, _ = os.path.split(__file__)
-    create_fresh_blog(os.getcwd())
+    # create_fresh_blog(os.getcwd())
     
-    opj = os.path.join
+    # opj = os.path.join
 
-    from_ = opj(this_dir, 'assets')
-    to = os.getcwd()
+    # from_ = opj(this_dir, 'assets')
+    # to = os.getcwd()
 
-
-                       
-    
     source_path = os.path.join(this_dir,'assets','config.ini')
     destination_path = os.path.join(os.getcwd(),'config.ini')
     
@@ -65,9 +63,9 @@ def main():
     destination_path2 = os.path.join(os.getcwd(),'example.md')
     
     if command == 'init':
-        for src, dest in [('config.ini', 'config.ini'),
-                          ('templates', 'templates')]:
-            shutil.copyfile(src, dest)
+        # for src, dest in [('config.ini', 'config.ini'),
+        #                   ('templates', 'templates')]:
+        #     shutil.copyfile(src, dest)
 
         shutil.copyfile(source_path, destination_path)
         shutil.copytree(source_path1, destination_path1)
