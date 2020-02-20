@@ -4,6 +4,7 @@ import os.path
 from . import parser
 import argparse
 import logging
+import glob
 
 def get_logger(verbose=False):
     l = logging.getLogger('journalhub')
@@ -74,5 +75,14 @@ def main():
         l.info("Initializes the blog")
     elif command == 'generate':
         path = os.getcwd()
+
+        if "post_html" not in os.listdir(path):
+            post_html_path= os.path.join(path,"post_html")
+            os.mkdir(post_html_path)
+        else:
+            filelist = glob.glob(path+"/post_html/*.html")
+            for f in filelist:
+                os.remove(f)
+                
         parser.md_to_html(path,option)
         l.info("Generated html files")

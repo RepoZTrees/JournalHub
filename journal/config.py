@@ -1,12 +1,11 @@
 from configparser import ConfigParser
 
-parser = ConfigParser()
-parser.read('assets/config.ini')
-
-
-print(parser.sections())
-print(parser.get("Landing Page", "title"))
-print(parser.get("Landing Page", "description"))
-
-    
+def get_config_data(path):
+    parser = ConfigParser()
+    parser.read(path)
+    parser.sections()
+    data = {'title':parser.get("Landing Page", "title"),
+            'description':parser.get("Landing Page", "description"),
+            'order_by_date':parser.get("Landing Page", "order_by_date")}
+    return data
 

@@ -4,6 +4,8 @@ import json
 import os
 import jinja2
 import os.path
+from . import config
+import datetime
 
 l = getLogger('journalhub')
 
@@ -39,8 +41,9 @@ def convert_content_to_html(md_content):
     return html
 
 def get_parsed_md(path):
-    md_files = glob.glob(path+"/blog_posts/*.md")
-    articles = {}
+    md_path = os.path.join(path,"blog_posts","*.md")
+    md_files = glob.glob(md_path)
+    articles = []
     for i in md_files:
         with open(i,'r') as f:
             l.debug("Generating ....")
@@ -50,73 +53,59 @@ def get_parsed_md(path):
         info,md_content = split_md(data)  
         python_object = convert_md_to_python(info)
         line1,line2,line3 = parse_info(python_object)
+        date_str = line3
+        date = datetime.datetime.strptime(date_str, '%d-%m-%Y').date()
         html_content = convert_content_to_html(md_content)
-        article_data = {'title': line1,
+        article_data = {
+            'file_name': file_name,
+            'title': line1,
              'author': line2,
-             'date': line3,
+             'date': date,
             'content':html_content}
-        articles[file_name] = article_data
+        articles.append(article_data)
     return articles
 
-def create_post(dict,path,option):
-    if "post_html" not in os.listdir(path):
-        post_html_path= os.path.join(path,"post_html")
-        os.mkdir(post_html_path)
-    templateLoader = jinja2.FileSystemLoader(searchpath="./templates/")
+def create_index(parsed_data,config_data,path,option):
+    search_path = os.path.join(path,"templates")
+    templateLoader = jinja2.FileSystemLoader(searchpath=search_path)
     templateEnv = jinja2.Environment(loader=templateLoader)
+    
+    index_template = templateEnv.get_template("index_template.html")
+
+    str_index = index_template.render(post=parsed_data,config_data=config_data,option=option)
+
+    return str_index
+    
+    
+
+def create_post(parsed_data,config_data,path):
+    search_path = os.path.join(path,"templates")
+    templateLoader = jinja2.FileSystemLoader(searchpath=search_path)
+    templateEnv = jinja2.Environment(loader=templateLoader)
+    
     post_template = templateEnv.get_template("post_template.html")
-    if option:
-        post_details = []
-        dir_name = os.path.basename(path)
-        for key,value in dict.items():
-            post_details.append(value)
-        data = {
-            'head' : "JournalHub",
-            'post_details' : post_details
-            }
-        str = post_template.render(post=data)
-        post_path = os.path.join(path,"post_html",dir_name)
+    
+    for i in parsed_data:
+        str_post = post_template.render(post=i,config_data=config_data)
+        post_path = os.path.join(path,"post_html",i['file_name'])
         post_path += ".html"
         f= open(post_path,"w")
-        f.write(str)
-    else:
-        for key,value in dict.items():
-            data= {
-                'head' : "JournalHub",
-                'post_details' : [value]
-                }
-            str = post_template.render(post=data)
-            post_path = os.path.join(path,"post_html",key)
-            post_path += ".html"
-            f = open(post_path,"w")
-            f.write(str)
-
-def create_index(dict,path,option):
-    templateLoader = jinja2.FileSystemLoader(searchpath="./templates/")
-    templateEnv = jinja2.Environment(loader=templateLoader)
-    index_template = templateEnv.get_template("index_template.html")
-    blog_names = []
-    for i in dict:
-        dir_name = os.path.basename(path)
-        break
-    for key,values in dict.items():
-        blog_names.append(key)
-    if option:
-        data = {
-            'head' : "JournalHub",
-            'blog_names' : [dir_name]
-            }
-    else:
-        data = {
-            'head' : "JournalHub",
-            'blog_names': blog_names
-        }
-    str = index_template.render(post=data)
-    index_path = os.path.join(path,"index.html")
-    f = open(index_path,"w")
-    f.write(str)
+        f.write(str_post)
+        
     
 def md_to_html(path,option):
-    dict = get_parsed_md(path)
-    create_index(dict,path,option)
-    create_post(dict,path,option)
+    parsed_data = get_parsed_md(path)
+    config_data = config.get_config_data(os.path.join(path,"config.ini"))
+    
+    if option:
+        str_index = create_index(parsed_data,config_data,path,option)
+        index_path = os.path.join(path,"post_html","single_index.html")
+        f = open(index_path,"w")
+        f.write(str_index)
+    else:
+        str_index = create_index(parsed_data,config_data,path,option)
+        index_path = os.path.join(path,"post_html","index.html")
+        f = open(index_path,"w")
+        f.write(str_index)
+        create_post(parsed_data,config_data,path)
+        
