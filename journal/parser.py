@@ -96,6 +96,11 @@ def create_post(parsed_data,config_data,path):
 def md_to_html(path,option):
     parsed_data = get_parsed_md(path)
     config_data = config.get_config_data(os.path.join(path,"config.ini"))
+
+    if config_data['order_by_date'] == 'ascending':
+        parsed_data.sort(key = lambda x:x['date'])
+    else:
+        parsed_data.sort(key = lambda x:x['date'],reverse = True)
     
     if option:
         str_index = create_index(parsed_data,config_data,path,option)
