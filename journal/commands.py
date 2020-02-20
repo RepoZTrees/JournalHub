@@ -5,19 +5,23 @@ from . import parser
 import argparse
 import logging
 
-def get_logger():
-    l = logging.getLogger('')
+def get_logger(verbose=False):
+    l = logging.getLogger('journalhub')
     sh = logging.StreamHandler() 
     l.addHandler(sh)
     fmt = logging.Formatter('%(asctime)s | %(filename)s:%(lineno)d | %(message)s')
     sh.setFormatter(fmt)
-    sh.setLevel(logging.INFO)
-    l.setLevel(logging.INFO)
+    if verbose:
+        sh.setLevel(logging.DEBUG)
+    else:
+        sh.setLevel(logging.INFO)
+    l.setLevel(logging.DEBUG)
     return l
 
 def arg_parse():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('function',help='$ journal init  -->  Initialzes blog templates. $ journal generate  -->  Generates html files', choices = ["init","generate"])
+    arg_parser.add_argument('-v','--verbose', help = "Show verbose debugging output")
     arg_parser.add_argument('-s','--single',
                             default = False,
                             action = 'store_true',
@@ -25,11 +29,31 @@ def arg_parse():
     args = arg_parser.parse_args()
     return args.function,args.single
 
-def main():
-    l = get_logger()
-    command,option = arg_parse()
+def create_fresh_blog(at):
+    """
+    Creates a fresh blog setup at location `at`
+    """
+    # Move stuff from main here so that it's testable
 
-    this_dir,this_filename = os.path.split(__file__)
+def main():
+
+    command,option = arg_parse()
+    if '-v' in command:
+        l = get_logger(True)
+    else:
+        l = get_logger(False)
+
+    this_dir, _ = os.path.split(__file__)
+    create_fresh_blog(os.getcwd())
+    
+    opj = os.path.join
+
+    from_ = opj(this_dir, 'assets')
+    to = os.getcwd()
+
+
+                       
+    
     source_path = os.path.join(this_dir,'assets','config.ini')
     destination_path = os.path.join(os.getcwd(),'config.ini')
     
@@ -40,6 +64,10 @@ def main():
     destination_path2 = os.path.join(os.getcwd(),'example.md')
     
     if command == 'init':
+        for src, dest in [('config.ini', 'config.ini'),
+                          ('templates', 'templates')]:
+            shutil.copyfile(src, dest)
+
         shutil.copyfile(source_path, destination_path)
         shutil.copytree(source_path1, destination_path1)
         shutil.copyfile(source_path2, destination_path2)
