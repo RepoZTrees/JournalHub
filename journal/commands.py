@@ -59,8 +59,8 @@ def main():
     source_path1 = os.path.join(this_dir,'assets','templates')
     destination_path1 = os.path.join(os.getcwd(),'templates')
 
-    source_path2 = os.path.join(this_dir,'assets','example.md')
-    destination_path2 = os.path.join(os.getcwd(),'example.md')
+    source_path2 = os.path.join(this_dir,'assets','blog_posts')
+    destination_path2 = os.path.join(os.getcwd(),'blog_posts')
     
     if command == 'init':
         # for src, dest in [('config.ini', 'config.ini'),
@@ -69,7 +69,7 @@ def main():
 
         shutil.copyfile(source_path, destination_path)
         shutil.copytree(source_path1, destination_path1)
-        shutil.copyfile(source_path2, destination_path2)
+        shutil.copytree(source_path2, destination_path2)
         l.info("Initializes the blog")
     elif command == 'generate':
         path = os.getcwd()

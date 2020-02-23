@@ -43,6 +43,8 @@ def convert_content_to_html(md_content):
 def get_parsed_md(path):
     md_path = os.path.join(path,"blog_posts","*.md")
     md_files = glob.glob(md_path)
+    example_md_path = os.path.join(path,"blog_posts","example.md")
+    md_files.remove(example_md_path)
     articles = []
     for i in md_files:
         with open(i,'r') as f:
