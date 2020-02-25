@@ -5,6 +5,8 @@ from . import parser
 import argparse
 import logging
 import glob
+import socketserver
+import http.server
 
 def get_logger(verbose=False):
     l = logging.getLogger('journalhub')
@@ -21,7 +23,7 @@ def get_logger(verbose=False):
 
 def arg_parse():
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('function',help='$ journal init  -->  Initialzes blog templates. $ journal generate  -->  Generates html files', choices = ["init","generate"])
+    arg_parser.add_argument('function',help='$ journal init  -->  Initialzes blog templates. $ journal generate  -->  Generates html files', choices = ["init","generate","serve"])
     arg_parser.add_argument('-v','--verbose', help = "Show verbose debugging output")
     arg_parser.add_argument('-s','--single',
                             default = False,
@@ -84,3 +86,16 @@ def main():
                 
         parser.md_to_html(path,option)
         l.info("Generated html files")
+
+    elif command == 'serve':
+        
+        PORT = 8000
+   
+        web_dir = os.path.join(os.getcwd(), 'post_html')
+        os.chdir(web_dir)
+
+        Handler = http.server.SimpleHTTPRequestHandler
+        httpd = socketserver.TCPServer(("", PORT), Handler)
+        print("serving at port", PORT,"http://0.0.0.0:8000/")
+        httpd.serve_forever()
+
