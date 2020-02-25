@@ -9,14 +9,16 @@ To install JournalHub, please perform the following steps
 
 1. `$ git clone https://github.com/RepoZTrees/JournalHub.git`
 2. `$ cd JournalHub`
-3. `$ pip install -r requirements.txt`
-4. `$ python3 setup.py install`
+3. Create a virtual environment
+4. `$ pip install -r requirements.txt`
+5. `$ python3 setup.py install`
 
 ### Usage
 
 1. Create an empty folder (e.g. `my_blogs`) and `cd` into it. 
 1. `$ journal init` - This will setup your new blog
 1. A sample blog entry file will be inside `blog_posts` named `example.md`
+1. Put your blog files in markdown format (e.g. blog_filename.md) inside `blog_posts` folder
 1. `$ journal generate` will create your blog
 1. `$ journal serve` will make it available with a local webserver
 1. Add new entries similar to `example.md` in the `blog_posts` directory and run generate again to create new blog entries.
